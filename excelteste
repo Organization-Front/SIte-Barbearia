@@ -1,0 +1,50 @@
+Sub Botão1_Clique()
+ GETDATAEPIGEIAS
+ CopyPasteCells
+ removerduplicates
+ SUMTOTALVALUEBYID
+End Sub
+
+Sub GETDATAEPIGEIAS()
+   Dim LINHA As Integer
+   LINHA = 7
+   
+   Do While Cells(LINHA, 3) <> ""
+     LINHA = LINHA + 1
+     Cells(LINHA, 1) = Application.Index(Sheets("EPIGEIAS").Range("A8:A19"), Application.Match(Int(Cells(LINHA, 3) / 10), Sheets("EPIGEIAS").Range("B8:B19"), 0), 0)
+   Loop
+   
+End Sub
+
+Sub CopyPasteCells()
+
+   Range("A8:B21").Select
+   Selection.Copy
+   Selection.End(xlDown).Select
+   Range("D25:e1000").Select
+   ActiveSheet.Paste
+   
+End Sub
+Sub removerduplicates()
+   ActiveSheet.Range("d25:e38").removeduplicates Columns:=Array(1, 2), Header:=xlYes
+End Sub
+Sub SUMTOTALVALUEBYID()
+  
+  
+  Set ULTIMALINHA = Planilha1.Range("B21").End(xlUp)
+  
+ Planilha1.Select
+ Planilha1.Range("F25").Select
+
+ Do While ActiveCell.Row <= 200
+ 
+  'ActiveCell.Value = Application.SumIf(Range("E8:E21"), Range("A8:A21"), Range("D" & ActiveCell.Row).Text, Range("b8:B24"), Range("D" & ActiveCell.Row).Text, Range("b8:B24"), Range("D" & ActiveCell.Row).Text)
+   'ActiveCell.Value = Application.SumIf(Range("E8:E21"), Range("A8:A21"), Range("D" & ActiveCell.Row).Text)
+   ActiveCell.Value = Application.SumIf(Range("A8:A21"), Range("D" & ActiveCell.Row), Range("E8:E21"))
+  ActiveCell.Offset(1, 0).Select
+ Loop
+  
+End Sub
+
+
+
